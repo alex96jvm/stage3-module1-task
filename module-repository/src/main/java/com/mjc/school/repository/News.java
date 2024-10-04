@@ -5,10 +5,10 @@ import java.util.Objects;
 
 public class News {
     private static Long idCounter = 1L;
-    private final Long id;
+    private Long id;
     private String title;
     private String content;
-    private final LocalDateTime createDate;
+    private LocalDateTime createDate;
     private LocalDateTime lastUpdateTime;
     private Long authorId;
 
