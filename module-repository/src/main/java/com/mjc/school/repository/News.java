@@ -5,19 +5,19 @@ import java.util.Objects;
 
 public class News {
     private static Long idCounter = 1L;
-    private Long id;
+    private final Long id;
     private String title;
     private String content;
-    private LocalDateTime createDate;
-    private LocalDateTime lastUpdateTime;
+    private final LocalDateTime createDate;
+    private LocalDateTime lastUpdatedDate;
     private Long authorId;
 
-    public News(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateTime, Long authorId) {
+    public News(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdatedDate, Long authorId) {
         this.id = idCounter++;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
-        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdatedDate = lastUpdatedDate;
         this.authorId = authorId;
     }
 
@@ -45,12 +45,12 @@ public class News {
         return createDate;
     }
 
-    public LocalDateTime getLastUpdateTime() {
-        return lastUpdateTime;
+    public LocalDateTime getLastUpdatedDate() {
+        return lastUpdatedDate;
     }
 
-    public void setLastUpdateTime(LocalDateTime lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
+    public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public Long getAuthorId() {
@@ -72,18 +72,6 @@ public class News {
     @Override
     public int hashCode() {
         return Objects.hash(title, content, authorId);
-    }
-
-    @Override
-    public String toString() {
-        return "NewDtoResponse[" +
-                "id=" + id +
-                ", title=" + title +
-                ", content=" + content +
-                ", createDate=" + createDate +
-                ", lastUpdateTime=" + lastUpdateTime +
-                ", authorId=" + authorId +
-                ']';
     }
 }
 
