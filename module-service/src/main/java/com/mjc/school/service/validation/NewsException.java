@@ -1,4 +1,4 @@
-package com.mjc.school.service;
+package com.mjc.school.service.validation;
 
 public class NewsException extends Exception{
     private final String errorCode;

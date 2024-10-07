@@ -23,7 +23,8 @@ public class NewsView {
         );
     }
 
-    private void selectOperation () {
+    private void selectOperation() {
+        String NOT_FOUND = "Command not found.";
         Scanner scanner = new Scanner(System.in);
         try {
             int choice = Integer.parseInt(scanner.nextLine());
@@ -46,10 +47,10 @@ public class NewsView {
                     newsController.deleteNews(scanner);
                     break;
                 default:
-                    System.out.println("Command not found.");
+                    System.out.println(NOT_FOUND);
             }
-        } catch (NumberFormatException e){
-            System.out.println("Command not found.");
+        } catch (NumberFormatException e) {
+            System.out.println(NOT_FOUND);
         }
         showControlMenu();
         selectOperation();

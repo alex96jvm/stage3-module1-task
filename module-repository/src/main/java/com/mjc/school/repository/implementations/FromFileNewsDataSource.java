@@ -1,23 +1,34 @@
-package com.mjc.school.repository;
+package com.mjc.school.repository.implementations;
 
+import com.mjc.school.repository.NewsDataSource;
+import com.mjc.school.repository.models.News;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Logger;
 
-public class FromFileNewsDataSource implements NewsDataSource{
+public class FromFileNewsDataSource implements NewsDataSource {
+    private static final Logger logger = Logger.getLogger(FromFileNewsDataSource.class.getName());
     private static final FromFileNewsDataSource newsDataSource = new FromFileNewsDataSource();
     private static final List<News> allNews = new ArrayList<>();
     private static final int INITIAL_CAPACITY = 20;
 
     static {
-        try {
-            List<String> titles = Files.readAllLines(Paths.get("module-repository/src/main/resources/news.txt"));
-            List<String> contents = Files.readAllLines(Paths.get("module-repository/src/main/resources/content.txt"));
-            List<Author> authors = FromFileAuthorDataSource.getAuthorDataSource().getAuthors();
+        Properties properties = new Properties();
+        try (InputStream input = FromFileNewsDataSource.class.getClassLoader()
+                .getResourceAsStream("config.properties")) {
+            properties.load(input);
+            String newsFilePath = properties.getProperty("newsFilePath");
+            String contentFilePath = properties.getProperty("contentFilePath");
+            var titles = Files.readAllLines(Paths.get(newsFilePath));
+            var contents = Files.readAllLines(Paths.get(contentFilePath));
+            var authors = FromFileAuthorDataSource.getAuthorDataSource().getAuthors();
             Random random = new Random();
             int count = 0;
             while (count < INITIAL_CAPACITY) {
@@ -31,13 +42,13 @@ public class FromFileNewsDataSource implements NewsDataSource{
                 count++;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warning(e.getMessage());
         }
     }
 
     private FromFileNewsDataSource(){};
 
-    public static FromFileNewsDataSource getAuthorDataSource () {
+    public static FromFileNewsDataSource getNewsDataSource() {
         return newsDataSource;
     }
 

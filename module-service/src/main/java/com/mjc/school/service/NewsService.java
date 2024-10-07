@@ -1,5 +1,7 @@
 package com.mjc.school.service;
 
+import com.mjc.school.service.dto.NewsDTO;
+import com.mjc.school.service.validation.NewsException;
 import java.util.List;
 
 public interface NewsService {

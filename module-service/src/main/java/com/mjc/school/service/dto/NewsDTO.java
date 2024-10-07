@@ -1,4 +1,4 @@
-package com.mjc.school.service;
+package com.mjc.school.service.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
