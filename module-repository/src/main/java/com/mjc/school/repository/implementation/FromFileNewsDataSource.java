@@ -1,4 +1,4 @@
-package com.mjc.school.repository.implementations;
+package com.mjc.school.repository.implementation;
 
 import com.mjc.school.repository.NewsDataSource;
 import com.mjc.school.repository.models.News;
