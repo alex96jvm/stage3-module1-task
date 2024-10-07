@@ -1,6 +1,8 @@
 package com.mjc.school.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class NewsDTO {
@@ -74,12 +76,13 @@ public class NewsDTO {
 
     @Override
     public String toString() {
+        String s = createDate.format(DateTimeFormatter.ISO_DATE_TIME);
         return "NewsDtoResponse[" +
                 "id=" + id +
                 ", title=" + title +
                 ", content=" + content +
-                ", createDate=" + createDate +
-                ", lastUpdatedDate=" + lastUpdatedDate +
+                ", createDate=" + createDate.truncatedTo(ChronoUnit.SECONDS) +
+                ", lastUpdatedDate=" + lastUpdatedDate.truncatedTo(ChronoUnit.SECONDS) +
                 ", authorId=" + authorId +
                 ']';
     }
