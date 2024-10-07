@@ -3,7 +3,7 @@ package com.mjc.school.controller;
 import java.util.Scanner;
 
 public class NewsView {
-    NewsController newsController;
+    private final NewsController newsController;
 
     public NewsView(NewsController newsController){
         this.newsController = newsController;

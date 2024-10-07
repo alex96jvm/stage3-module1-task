@@ -10,8 +10,7 @@ public class NewsController {
     private final String ENTER_AUTHOR_ID = "Enter author id:";
     private final String ENTER_NEWS_TITLE = "Enter news title:";
     private final String ENTER_NEWS_CONTENT = "Enter news content:";
-
-    NewsService newsService;
+    private final NewsService newsService;
 
     public NewsController(NewsService newsService) {
         this.newsService = newsService;
