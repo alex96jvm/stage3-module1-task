@@ -1,49 +1,49 @@
 package com.mjc.school.repository.implementation;
 
-import com.mjc.school.repository.datasource.AuthorDataSource;
+import com.mjc.school.repository.datasource.AuthorData;
 import com.mjc.school.repository.datasource.NewsDataSource;
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public class DefaultNewsRepository implements com.mjc.school.repository.NewsRepository {
-    private final AuthorDataSource authorDataSource;
+    private final AuthorData authorData;
     private final NewsDataSource newsDataSource;
 
-    public DefaultNewsRepository(AuthorDataSource authorDataSource, NewsDataSource newsDataSource) {
-        this.authorDataSource = authorDataSource;
+    public DefaultNewsRepository(AuthorData authorData, NewsDataSource newsDataSource) {
+        this.authorData = authorData;
         this.newsDataSource = newsDataSource;
     }
 
-    public News createNews(String title, String content, Long authorId) {
-        News newNews = new News(title, content, LocalDateTime.now(), LocalDateTime.now(), authorId);
+    public NewsModel createNews(String title, String content, Long authorId) {
+        NewsModel newNews = new NewsModel(title, content, LocalDateTime.now(), LocalDateTime.now(), authorId);
         newsDataSource.getAllNews().add(newNews);
         return newNews;
     }
 
-    public List<News> readAllNews() {
+    public List<NewsModel> readAllNews() {
         return newsDataSource.getAllNews();
     }
 
-    public List<Author> readAllAuthors() {
-        return authorDataSource.getAuthors();
+    public List<AuthorModel> readAllAuthors() {
+        return authorData.getAuthors();
     }
 
-    public Optional<News> readByIdNews(Long id){
+    public Optional<NewsModel> readByIdNews(Long id){
         return newsDataSource.getAllNews().stream().filter(n -> n.getId().equals(id)).findAny();
     }
 
-    public News updateNews(Long id, String title, String content, Long authorId) {
-        News news = readByIdNews(id).orElseThrow();
+    public NewsModel updateNews(Long id, String title, String content, Long authorId) {
+        NewsModel news = readByIdNews(id).orElseThrow();
         news.setTitle(title);
         news.setContent(content);
         news.setAuthorId(authorId);
         return news;
     }
 
-    public boolean deleteNews(Long id) {
+    public Boolean deleteNews(Long id) {
         return newsDataSource.getAllNews().remove(readByIdNews(id).orElseThrow());
     }
 }

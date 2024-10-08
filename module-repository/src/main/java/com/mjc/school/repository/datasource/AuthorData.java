@@ -1,6 +1,6 @@
 package com.mjc.school.repository.datasource;
 
-import com.mjc.school.repository.model.Author;
+import com.mjc.school.repository.model.AuthorModel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-public class AuthorDataSource {
+public class AuthorData {
     private final Logger logger;
-    private final List<Author> authors;
+    private final List<AuthorModel> authors;
 
-    public AuthorDataSource() {
-        logger = Logger.getLogger(AuthorDataSource.class.getName());
+    public AuthorData() {
+        logger = Logger.getLogger(AuthorData.class.getName());
         authors = new ArrayList<>();
         loadNews();
     }
@@ -27,14 +27,14 @@ public class AuthorDataSource {
             properties.load(input);
             String authorFilePath = properties.getProperty("authorFilePath");
             try (var lines = Files.lines(Paths.get(authorFilePath))) {
-                lines.forEach(line -> authors.add(new Author(line)));
+                lines.forEach(line -> authors.add(new AuthorModel(line)));
             }
         } catch (IOException e) {
             logger.warning(e.getMessage());
         }
     }
 
-    public List<Author> getAuthors(){
+    public List<AuthorModel> getAuthors(){
         return authors;
     }
 }

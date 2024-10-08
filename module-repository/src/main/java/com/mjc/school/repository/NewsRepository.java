@@ -1,20 +1,20 @@
 package com.mjc.school.repository;
 
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import java.util.List;
 import java.util.Optional;
 
 public interface NewsRepository {
-    News createNews(String title, String content, Long authorId);
+    NewsModel createNews(String title, String content, Long authorId);
 
-    List<News> readAllNews();
+    List<NewsModel> readAllNews();
 
-    List<Author> readAllAuthors();
+    List<AuthorModel> readAllAuthors();
 
-    Optional<News> readByIdNews(Long id);
+    Optional<NewsModel> readByIdNews(Long id);
 
-    News updateNews(Long id, String title, String content, Long authorId);
+    NewsModel updateNews(Long id, String title, String content, Long authorId);
 
-    boolean deleteNews(Long id);
+    Boolean deleteNews(Long id);
 }

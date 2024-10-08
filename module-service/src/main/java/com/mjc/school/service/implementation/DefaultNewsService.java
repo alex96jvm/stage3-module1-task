@@ -1,13 +1,12 @@
 package com.mjc.school.service.implementation;
 
 import com.mjc.school.repository.NewsRepository;
-import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.*;
 import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DefaultNewsService implements NewsService {
     private final String NEWS = "News";
@@ -25,20 +24,20 @@ public class DefaultNewsService implements NewsService {
         Long authorId = validator.validateNumericValue(authorStringId, AUTHOR);
         validator.validateNewsData(title, content);
         findAuthorById(authorId);
-        News newNews = newsRepository.createNews(title, content, authorId);
+        NewsModel newNews = newsRepository.createNews(title, content, authorId);
         return mapToNewsDto(newNews);
     }
 
     @Override
     public List<NewsDTO> getAllNews() {
         return newsRepository.readAllNews().stream().map(NewsMapper.INSTANCE::newsToNewsDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public NewsDTO getNews(String id) throws NewsException {
         Long newsId = validator.validateNumericValue(id, NEWS);
-        News news = findNewsById(newsId);
+        NewsModel news = findNewsById(newsId);
         return mapToNewsDto(news);
     }
 
@@ -49,18 +48,18 @@ public class DefaultNewsService implements NewsService {
         findNewsById(newsId);
         validator.validateNewsData(title, content);
         findAuthorById(authorId);
-        News news = newsRepository.updateNews(newsId, title, content, authorId);
+        NewsModel news = newsRepository.updateNews(newsId, title, content, authorId);
         return mapToNewsDto(news);
     }
 
     @Override
-    public boolean deleteNews(String id) throws NewsException {
+    public Boolean deleteNews(String id) throws NewsException {
         Long newsId = validator.validateNumericValue(id, NEWS);
         findNewsById(newsId);
         return newsRepository.deleteNews(newsId);
     }
 
-    private News findNewsById(Long id) throws NewsException {
+    private NewsModel findNewsById(Long id) throws NewsException {
         return newsRepository.readByIdNews(id)
                 .orElseThrow(() -> new NewsException(ErrorCodes.NEWS_NOT_FOUND, "News with id " + id + " does not exist."));
     }
@@ -70,7 +69,7 @@ public class DefaultNewsService implements NewsService {
                 .orElseThrow(() -> new NewsException(ErrorCodes.AUTHOR_NOT_FOUND, "Author Id does not exist. Author Id is: " + authorId));
     }
 
-    private NewsDTO mapToNewsDto(News news) {
+    private NewsDTO mapToNewsDto(NewsModel news) {
         return NewsMapper.INSTANCE.newsToNewsDto(news);
     }
 }

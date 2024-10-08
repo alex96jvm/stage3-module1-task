@@ -1,6 +1,6 @@
 package com.mjc.school.repository.datasource;
 
-import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.NewsModel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class NewsDataSource {
     private final Logger logger;
-    private final List<News> allNews;
+    private final List<NewsModel> allNews;
 
     public NewsDataSource() {
         logger = Logger.getLogger(NewsDataSource.class.getName());
@@ -32,11 +32,11 @@ public class NewsDataSource {
             String contentFilePath = properties.getProperty("contentFilePath");
             var titles = Files.readAllLines(Paths.get(newsFilePath));
             var contents = Files.readAllLines(Paths.get(contentFilePath));
-            var authors = new AuthorDataSource().getAuthors();
+            var authors = new AuthorData().getAuthors();
             Random random = new Random();
             int count = 0;
             while (count < INITIAL_CAPACITY) {
-                allNews.add(new News(
+                allNews.add(new NewsModel(
                         titles.get(random.nextInt(titles.size())),
                         contents.get(random.nextInt(contents.size())),
                         LocalDateTime.now(),
@@ -50,7 +50,7 @@ public class NewsDataSource {
         }
     }
 
-    public List<News> getAllNews(){
+    public List<NewsModel> getAllNews(){
         return allNews;
     }
 }

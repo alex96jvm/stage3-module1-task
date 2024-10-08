@@ -1,7 +1,7 @@
 package com.mjc.school.service.implementation;
 
 import com.mjc.school.repository.NewsRepository;
-import com.mjc.school.repository.datasource.AuthorDataSource;
+import com.mjc.school.repository.datasource.AuthorData;
 import com.mjc.school.repository.datasource.NewsDataSource;
 import com.mjc.school.repository.implementation.DefaultNewsRepository;
 import com.mjc.school.service.NewsService;
@@ -15,9 +15,9 @@ public class DefaultNewsServiceTest {
 
     @BeforeAll
     static void setUp() {
-        AuthorDataSource authorDataSource = new AuthorDataSource();
+        AuthorData authorData = new AuthorData();
         NewsDataSource newsDataSource = new NewsDataSource();
-        NewsRepository newsRepository = new DefaultNewsRepository(authorDataSource, newsDataSource);
+        NewsRepository newsRepository = new DefaultNewsRepository(authorData, newsDataSource);
         newsService = new DefaultNewsService(newsRepository);
     }
 

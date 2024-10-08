@@ -13,5 +13,5 @@ public interface NewsService {
 
     NewsDTO updateNews(String id, String title, String content, String authorId) throws NewsException;
 
-    boolean deleteNews(String id) throws NewsException;
+    Boolean deleteNews(String id) throws NewsException;
 }
