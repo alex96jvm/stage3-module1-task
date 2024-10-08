@@ -1,4 +1,4 @@
-package com.mjc.school.service.validation;
+package com.mjc.school.service.exception;
 
 public final class ErrorCodes {
     public static final String NEWS_NOT_FOUND = "000001";

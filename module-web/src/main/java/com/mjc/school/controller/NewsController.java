@@ -1,6 +1,6 @@
 package com.mjc.school.controller;
 
-import com.mjc.school.service.validation.NewsException;
+import com.mjc.school.service.exception.NewsException;
 import com.mjc.school.service.NewsService;
 import java.util.Scanner;
 

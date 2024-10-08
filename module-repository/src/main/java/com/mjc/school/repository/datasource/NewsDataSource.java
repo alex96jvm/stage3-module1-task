@@ -1,7 +1,6 @@
-package com.mjc.school.repository.implementation;
+package com.mjc.school.repository.datasource;
 
-import com.mjc.school.repository.NewsDataSource;
-import com.mjc.school.repository.models.News;
+import com.mjc.school.repository.model.News;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -13,22 +12,27 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Logger;
 
-public class FromFileNewsDataSource implements NewsDataSource {
-    private static final Logger logger = Logger.getLogger(FromFileNewsDataSource.class.getName());
-    private static final FromFileNewsDataSource newsDataSource = new FromFileNewsDataSource();
-    private static final List<News> allNews = new ArrayList<>();
-    private static final int INITIAL_CAPACITY = 20;
+public class NewsDataSource {
+    private final Logger logger;
+    private final List<News> allNews;
 
-    static {
+    public NewsDataSource() {
+        logger = Logger.getLogger(NewsDataSource.class.getName());
+        allNews = new ArrayList<>();
+        loadNews();
+    }
+
+    private void loadNews(){
         Properties properties = new Properties();
-        try (InputStream input = FromFileNewsDataSource.class.getClassLoader()
+        int INITIAL_CAPACITY = 20;
+        try (InputStream input = NewsDataSource.class.getClassLoader()
                 .getResourceAsStream("config.properties")) {
             properties.load(input);
             String newsFilePath = properties.getProperty("newsFilePath");
             String contentFilePath = properties.getProperty("contentFilePath");
             var titles = Files.readAllLines(Paths.get(newsFilePath));
             var contents = Files.readAllLines(Paths.get(contentFilePath));
-            var authors = FromFileAuthorDataSource.getAuthorDataSource().getAuthors();
+            var authors = new AuthorDataSource().getAuthors();
             Random random = new Random();
             int count = 0;
             while (count < INITIAL_CAPACITY) {
@@ -44,12 +48,6 @@ public class FromFileNewsDataSource implements NewsDataSource {
         } catch (IOException e) {
             logger.warning(e.getMessage());
         }
-    }
-
-    private FromFileNewsDataSource(){};
-
-    public static FromFileNewsDataSource getNewsDataSource() {
-        return newsDataSource;
     }
 
     public List<News> getAllNews(){

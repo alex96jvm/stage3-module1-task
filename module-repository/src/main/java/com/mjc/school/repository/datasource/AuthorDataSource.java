@@ -1,7 +1,6 @@
-package com.mjc.school.repository.implementation;
+package com.mjc.school.repository.datasource;
 
-import com.mjc.school.repository.AuthorDataSource;
-import com.mjc.school.repository.models.Author;
+import com.mjc.school.repository.model.Author;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -11,14 +10,19 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-public class FromFileAuthorDataSource implements AuthorDataSource {
-    private static final Logger logger = Logger.getLogger(FromFileAuthorDataSource.class.getName());
-    private static final FromFileAuthorDataSource authorDataSource = new FromFileAuthorDataSource();
-    private static final List<Author> authors = new ArrayList<>();
+public class AuthorDataSource {
+    private final Logger logger;
+    private final List<Author> authors;
 
-    static {
+    public AuthorDataSource() {
+        logger = Logger.getLogger(AuthorDataSource.class.getName());
+        authors = new ArrayList<>();
+        loadNews();
+    }
+
+    private void loadNews(){
         Properties properties = new Properties();
-        try (InputStream input = FromFileNewsDataSource.class.getClassLoader()
+        try (InputStream input = NewsDataSource.class.getClassLoader()
                 .getResourceAsStream("config.properties")) {
             properties.load(input);
             String authorFilePath = properties.getProperty("authorFilePath");
@@ -28,12 +32,6 @@ public class FromFileAuthorDataSource implements AuthorDataSource {
         } catch (IOException e) {
             logger.warning(e.getMessage());
         }
-    }
-
-    private FromFileAuthorDataSource(){};
-
-    public static FromFileAuthorDataSource getAuthorDataSource () {
-        return authorDataSource;
     }
 
     public List<Author> getAuthors(){
