@@ -6,7 +6,9 @@ import com.mjc.school.service.*;
 import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class DefaultNewsService implements NewsService {
     private final String NEWS = "News";
@@ -24,7 +26,8 @@ public class DefaultNewsService implements NewsService {
         Long authorId = validator.validateNumericValue(authorStringId, AUTHOR);
         validator.validateNewsData(title, content);
         findAuthorById(authorId);
-        NewsModel newNews = newsRepository.createNews(title, content, authorId);
+        NewsModel newNews = new NewsModel(title, content, LocalDateTime.now(), LocalDateTime.now(), authorId);
+        newsRepository.createNews(newNews);
         return mapToNewsDto(newNews);
     }
 
@@ -45,10 +48,13 @@ public class DefaultNewsService implements NewsService {
     public NewsDTO updateNews(String id, String title, String content, String authorStringId) throws NewsException {
         Long newsId = validator.validateNumericValue(id, NEWS);
         Long authorId = validator.validateNumericValue(authorStringId, AUTHOR);
-        findNewsById(newsId);
+        NewsModel news = findNewsById(newsId);
         validator.validateNewsData(title, content);
         findAuthorById(authorId);
-        NewsModel news = newsRepository.updateNews(newsId, title, content, authorId);
+        news.setTitle(title);
+        news.setContent(content);
+        news.setAuthorId(authorId);
+        newsRepository.updateNews(news);
         return mapToNewsDto(news);
     }
 
@@ -60,8 +66,11 @@ public class DefaultNewsService implements NewsService {
     }
 
     private NewsModel findNewsById(Long id) throws NewsException {
-        return newsRepository.readByIdNews(id)
-                .orElseThrow(() -> new NewsException(ErrorCodes.NEWS_NOT_FOUND, "News with id " + id + " does not exist."));
+        try {
+            return newsRepository.readByIdNews(id);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new NewsException(ErrorCodes.NEWS_NOT_FOUND, "News with id " + id + " does not exist.");
+        }
     }
 
     private void findAuthorById(Long authorId) throws NewsException {

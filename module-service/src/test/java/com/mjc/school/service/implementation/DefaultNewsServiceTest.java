@@ -39,7 +39,7 @@ public class DefaultNewsServiceTest {
 
     @Test
     void updateNewsTitle() throws NewsException {
-        newsService.updateNews("2", "AGRICULTURE", "A Nigerian boy solves a 30-year math equation.", "1");
+         newsService.updateNews("2", "AGRICULTURE", "A Nigerian boy solves a 30-year math equation.", "1");
         Assertions.assertEquals("AGRICULTURE", newsService.getNews("2").getTitle());
     }
 
