@@ -5,13 +5,13 @@ import com.mjc.school.service.exception.NewsException;
 import java.util.List;
 
 public interface NewsService {
-    NewsDTO createNews(String title, String content, String authorId) throws NewsException;
+    NewsDTO createNews(NewsDTO newsDTO) throws NewsException;
 
     List<NewsDTO> getAllNews();
 
-    NewsDTO getNews(String id) throws NewsException;
+    NewsDTO getNews(Long id) throws NewsException;
 
-    NewsDTO updateNews(String id, String title, String content, String authorId) throws NewsException;
+    NewsDTO updateNews(NewsDTO newsDTO) throws NewsException;
 
-    Boolean deleteNews(String id) throws NewsException;
+    Boolean deleteNews(Long id) throws NewsException;
 }

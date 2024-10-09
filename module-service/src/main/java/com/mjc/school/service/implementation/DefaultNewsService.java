@@ -6,6 +6,8 @@ import com.mjc.school.service.*;
 import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
+import com.mjc.school.service.validation.DefaultValidator;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -13,17 +15,19 @@ import java.util.NoSuchElementException;
 public class DefaultNewsService implements NewsService {
     private final String NEWS = "News";
     private final String AUTHOR = "Author";
-    private final DefaultValidator validator;
     private final NewsRepository newsRepository;
+    private final DefaultValidator validator;
 
-    public DefaultNewsService(NewsRepository newsRepository) {
+    public DefaultNewsService(NewsRepository newsRepository, DefaultValidator validator) {
         this.newsRepository = newsRepository;
-        validator = new DefaultValidator();
+        this.validator = validator;
     }
 
     @Override
-    public NewsDTO createNews(String title, String content, String authorStringId) throws NewsException {
-        Long authorId = validator.validateNumericValue(authorStringId, AUTHOR);
+    public NewsDTO createNews(NewsDTO newsDTO) throws NewsException {
+        String title = newsDTO.getTitle();
+        String content = newsDTO.getContent();
+        Long authorId = newsDTO.getAuthorId();
         validator.validateNewsData(title, content);
         findAuthorById(authorId);
         NewsModel newNews = new NewsModel(title, content, LocalDateTime.now(), LocalDateTime.now(), authorId);
@@ -38,31 +42,33 @@ public class DefaultNewsService implements NewsService {
     }
 
     @Override
-    public NewsDTO getNews(String id) throws NewsException {
-        Long newsId = validator.validateNumericValue(id, NEWS);
-        NewsModel news = findNewsById(newsId);
+    public NewsDTO getNews(Long id) throws NewsException {
+        NewsModel news = findNewsById(id);
         return mapToNewsDto(news);
     }
 
     @Override
-    public NewsDTO updateNews(String id, String title, String content, String authorStringId) throws NewsException {
-        Long newsId = validator.validateNumericValue(id, NEWS);
-        Long authorId = validator.validateNumericValue(authorStringId, AUTHOR);
+    public NewsDTO updateNews(NewsDTO newsDTO) throws NewsException {
+        Long newsId = newsDTO.getId();
+        String title = newsDTO.getTitle();
+        String content = newsDTO.getContent();
+        Long authorId = newsDTO.getAuthorId();
+        LocalDateTime lastUpdatedDate = newsDTO.getLastUpdatedDate();
         NewsModel news = findNewsById(newsId);
         validator.validateNewsData(title, content);
         findAuthorById(authorId);
         news.setTitle(title);
         news.setContent(content);
         news.setAuthorId(authorId);
+        news.setLastUpdatedDate(lastUpdatedDate);
         newsRepository.updateNews(news);
         return mapToNewsDto(news);
     }
 
     @Override
-    public Boolean deleteNews(String id) throws NewsException {
-        Long newsId = validator.validateNumericValue(id, NEWS);
-        findNewsById(newsId);
-        return newsRepository.deleteNews(newsId);
+    public Boolean deleteNews(Long id) throws NewsException {
+        findNewsById(id);
+        return newsRepository.deleteNews(id);
     }
 
     private NewsModel findNewsById(Long id) throws NewsException {

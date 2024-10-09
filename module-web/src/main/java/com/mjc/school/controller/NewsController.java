@@ -1,7 +1,11 @@
 package com.mjc.school.controller;
 
+import com.mjc.school.service.dto.NewsDTO;
+import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 import com.mjc.school.service.NewsService;
+
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class NewsController {
@@ -10,6 +14,8 @@ public class NewsController {
     private final String ENTER_AUTHOR_ID = "Enter author id:";
     private final String ENTER_NEWS_TITLE = "Enter news title:";
     private final String ENTER_NEWS_CONTENT = "Enter news content:";
+    private final String NEWS = "News";
+    private final String AUTHOR = "Author";
     private final NewsService newsService;
 
     public NewsController(NewsService newsService) {
@@ -23,9 +29,14 @@ public class NewsController {
         System.out.println(ENTER_NEWS_CONTENT);
         String content = scanner.nextLine();
         System.out.println(ENTER_AUTHOR_ID);
-        String authorId = scanner.next(); scanner.nextLine();
+        String authorStringId = scanner.next(); scanner.nextLine();
         try {
-            System.out.println(newsService.createNews(title, content, authorId));
+            Long authorId = validateNumericValue(authorStringId, AUTHOR);
+            NewsDTO newsDTO = new NewsDTO();
+            newsDTO.setTitle(title);
+            newsDTO.setContent(content);
+            newsDTO.setAuthorId(authorId);
+            System.out.println(newsService.createNews(newsDTO));
         } catch (NewsException newsException){
             System.out.println(newsException);
             createNews(scanner);
@@ -41,18 +52,20 @@ public class NewsController {
         System.out.printf("%sGet news by id.%n", OPERATION);
         System.out.println(ENTER_NEWS_ID);
         try {
-            System.out.println(newsService.getNews(scanner.next()));
+            Long id = validateNumericValue(scanner.next(), NEWS);
+            System.out.println(newsService.getNews(id));
         } catch (NewsException newsException) {
             System.out.println(newsException);
         }
     }
 
     public void updateNews(Scanner scanner) {
+        NewsDTO newsDTO = null;
         System.out.printf("%sUpdate news.%n", OPERATION);
         System.out.println(ENTER_NEWS_ID);
-        String id = scanner.next(); scanner.nextLine();
         try {
-            newsService.getNews(id);
+            Long id = validateNumericValue(scanner.next(), NEWS); scanner.nextLine();
+            newsDTO = newsService.getNews(id);
         } catch (NewsException newsException){
             System.out.println(newsException);
             updateNews(scanner);
@@ -62,9 +75,14 @@ public class NewsController {
         System.out.println(ENTER_NEWS_CONTENT);
         String content = scanner.nextLine();
         System.out.println(ENTER_AUTHOR_ID);
-        String authorId = scanner.next();
         try {
-            System.out.println(newsService.updateNews(id, title, content, authorId));
+            Long authorId = validateNumericValue(scanner.next(), AUTHOR);
+            assert newsDTO != null;
+            newsDTO.setTitle(title);
+            newsDTO.setContent(content);
+            newsDTO.setLastUpdatedDate(LocalDateTime.now());
+            newsDTO.setAuthorId(authorId);
+            System.out.println(newsService.updateNews(newsDTO));
         } catch (NewsException newsException) {
             System.out.println(newsException);
             updateNews(scanner);
@@ -74,11 +92,19 @@ public class NewsController {
     public void deleteNews(Scanner scanner) {
         System.out.printf("%sRemove news by id.%n", OPERATION);
         System.out.println(ENTER_NEWS_ID);
-        String id = scanner.next();
         try {
+            Long id = validateNumericValue(scanner.next(), NEWS);
             System.out.println(newsService.deleteNews(id));
         } catch (NewsException newsException) {
             System.out.println(newsException);
+        }
+    }
+
+    private Long validateNumericValue(String id, String subValue) throws NewsException {
+        try {
+            return Long.parseLong(id);
+        } catch (NumberFormatException e) {
+            throw new NewsException(ErrorCodes.NOT_NUMERIC, subValue + " Id should be number");
         }
     }
 }

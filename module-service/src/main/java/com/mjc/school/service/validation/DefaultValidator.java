@@ -1,4 +1,4 @@
-package com.mjc.school.service.implementation;
+package com.mjc.school.service.validation;
 
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
