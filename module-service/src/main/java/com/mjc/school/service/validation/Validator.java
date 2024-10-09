@@ -3,15 +3,7 @@ package com.mjc.school.service.validation;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 
-public class DefaultValidator {
-    public Long validateNumericValue(String id, String subValue) throws NewsException {
-        try {
-            return Long.parseLong(id);
-        } catch (NumberFormatException e) {
-            throw new NewsException(ErrorCodes.NOT_NUMERIC, subValue + " Id should be number");
-        }
-    }
-
+public class Validator {
     public void validateNewsData(String title, String content) throws NewsException {
         validateLength(title, 30, "title");
         validateLength(content, 255, "content");

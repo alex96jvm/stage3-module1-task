@@ -8,14 +8,14 @@ import com.mjc.school.repository.datasource.NewsDataSource;
 import com.mjc.school.repository.implementation.DefaultNewsRepository;
 import com.mjc.school.service.implementation.DefaultNewsService;
 import com.mjc.school.service.NewsService;
-import com.mjc.school.service.validation.DefaultValidator;
+import com.mjc.school.service.validation.Validator;
 
 public class Main {
     public static void main(String[] args) {
         AuthorData authorData = new AuthorData();
         NewsDataSource newsDataSource = new NewsDataSource();
         NewsRepository newsRepository = new DefaultNewsRepository(authorData, newsDataSource);
-        DefaultValidator validator = new DefaultValidator();
+        Validator validator = new Validator();
         NewsService newsService = new DefaultNewsService(newsRepository, validator);
         NewsController newsController = new NewsController(newsService);
         new NewsView(newsController);

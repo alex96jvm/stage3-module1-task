@@ -7,7 +7,7 @@ import com.mjc.school.repository.implementation.DefaultNewsRepository;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.NewsException;
-import com.mjc.school.service.validation.DefaultValidator;
+import com.mjc.school.service.validation.Validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class DefaultNewsServiceTest {
         AuthorData authorData = new AuthorData();
         NewsDataSource newsDataSource = new NewsDataSource();
         NewsRepository newsRepository = new DefaultNewsRepository(authorData, newsDataSource);
-        DefaultValidator validator = new DefaultValidator();
+        Validator validator = new Validator();
         newsService = new DefaultNewsService(newsRepository, validator);
     }
 
@@ -37,12 +37,12 @@ public class DefaultNewsServiceTest {
 
     @Test
     void getCountOfAllNews() {
-        Assertions.assertEquals(20, newsService.getAllNews().size());
+        Assertions.assertEquals(20, newsService.readAllNews().size());
     }
 
     @Test
     void getFirstNews() throws NewsException {
-        Assertions.assertNotNull(newsService.getNews(1L));
+        Assertions.assertNotNull(newsService.readByIdNews(1L));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class DefaultNewsServiceTest {
         newsDTO.setContent("The woman standing her ground.");
         newsDTO.setAuthorId(5L);
         newsService.updateNews(newsDTO);
-        Assertions.assertEquals("AGRICULTURE", newsService.getNews(15L).getTitle());
+        Assertions.assertEquals("AGRICULTURE", newsService.readByIdNews(15L).getTitle());
     }
 
     @Test

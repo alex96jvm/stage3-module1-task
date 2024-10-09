@@ -12,6 +12,23 @@ public class NewsDTO {
     private LocalDateTime lastUpdatedDate;
     private Long authorId;
 
+    public NewsDTO(){}
+
+    public NewsDTO(String title, String content, LocalDateTime lastUpdatedDate, Long authorId) {
+        this.title = title;
+        this.content = content;
+        this.lastUpdatedDate = lastUpdatedDate;
+        this.authorId = authorId;
+    }
+
+    public NewsDTO(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdatedDate, Long authorId) {
+        this.title = title;
+        this.content = content;
+        this.createDate = createDate;
+        this.lastUpdatedDate = lastUpdatedDate;
+        this.authorId = authorId;
+    }
+
     public Long getId() {
         return id;
     }

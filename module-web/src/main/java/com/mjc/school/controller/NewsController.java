@@ -4,7 +4,6 @@ import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 import com.mjc.school.service.NewsService;
-
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -29,13 +28,9 @@ public class NewsController {
         System.out.println(ENTER_NEWS_CONTENT);
         String content = scanner.nextLine();
         System.out.println(ENTER_AUTHOR_ID);
-        String authorStringId = scanner.next(); scanner.nextLine();
         try {
-            Long authorId = validateNumericValue(authorStringId, AUTHOR);
-            NewsDTO newsDTO = new NewsDTO();
-            newsDTO.setTitle(title);
-            newsDTO.setContent(content);
-            newsDTO.setAuthorId(authorId);
+            Long authorId = validateNumericValue(scanner.next(), AUTHOR); scanner.nextLine();
+            NewsDTO newsDTO = new NewsDTO(title, content, LocalDateTime.now(), LocalDateTime.now(), authorId);
             System.out.println(newsService.createNews(newsDTO));
         } catch (NewsException newsException){
             System.out.println(newsException);
@@ -45,7 +40,7 @@ public class NewsController {
 
     public void getAllNews() {
         System.out.printf("%sGet all news.%n", OPERATION);
-        newsService.getAllNews().forEach(System.out::println);
+        newsService.readAllNews().forEach(System.out::println);
     }
 
     public void getNews(Scanner scanner) {
@@ -53,19 +48,19 @@ public class NewsController {
         System.out.println(ENTER_NEWS_ID);
         try {
             Long id = validateNumericValue(scanner.next(), NEWS);
-            System.out.println(newsService.getNews(id));
+            System.out.println(newsService.readByIdNews(id));
         } catch (NewsException newsException) {
             System.out.println(newsException);
         }
     }
 
     public void updateNews(Scanner scanner) {
-        NewsDTO newsDTO = null;
+        NewsDTO newsDTO = new NewsDTO();
         System.out.printf("%sUpdate news.%n", OPERATION);
         System.out.println(ENTER_NEWS_ID);
         try {
             Long id = validateNumericValue(scanner.next(), NEWS); scanner.nextLine();
-            newsDTO = newsService.getNews(id);
+            newsDTO = newsService.readByIdNews(id);
         } catch (NewsException newsException){
             System.out.println(newsException);
             updateNews(scanner);
@@ -76,8 +71,7 @@ public class NewsController {
         String content = scanner.nextLine();
         System.out.println(ENTER_AUTHOR_ID);
         try {
-            Long authorId = validateNumericValue(scanner.next(), AUTHOR);
-            assert newsDTO != null;
+            Long authorId = validateNumericValue(scanner.next(), AUTHOR); scanner.nextLine();
             newsDTO.setTitle(title);
             newsDTO.setContent(content);
             newsDTO.setLastUpdatedDate(LocalDateTime.now());

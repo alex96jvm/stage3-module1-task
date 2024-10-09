@@ -7,9 +7,9 @@ import java.util.List;
 public interface NewsService {
     NewsDTO createNews(NewsDTO newsDTO) throws NewsException;
 
-    List<NewsDTO> getAllNews();
+    List<NewsDTO> readAllNews();
 
-    NewsDTO getNews(Long id) throws NewsException;
+    NewsDTO readByIdNews(Long id) throws NewsException;
 
     NewsDTO updateNews(NewsDTO newsDTO) throws NewsException;
 
