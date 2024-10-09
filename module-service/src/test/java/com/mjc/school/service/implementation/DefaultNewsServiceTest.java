@@ -1,13 +1,12 @@
 package com.mjc.school.service.implementation;
 
-import com.mjc.school.repository.NewsRepository;
+import com.mjc.school.repository.NewsModelRepository;
 import com.mjc.school.repository.datasource.AuthorData;
 import com.mjc.school.repository.datasource.NewsDataSource;
 import com.mjc.school.repository.implementation.DefaultNewsRepository;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.NewsException;
-import com.mjc.school.service.validation.Validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,9 +18,8 @@ public class DefaultNewsServiceTest {
     static void setUp() {
         AuthorData authorData = new AuthorData();
         NewsDataSource newsDataSource = new NewsDataSource();
-        NewsRepository newsRepository = new DefaultNewsRepository(authorData, newsDataSource);
-        Validator validator = new Validator();
-        newsService = new DefaultNewsService(newsRepository, validator);
+        NewsModelRepository newsRepository = new DefaultNewsRepository(authorData, newsDataSource);
+        newsService = new DefaultNewsService(newsRepository);
     }
 
     @Test

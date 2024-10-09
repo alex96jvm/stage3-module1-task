@@ -1,6 +1,6 @@
 package com.mjc.school.service.implementation;
 
-import com.mjc.school.repository.NewsRepository;
+import com.mjc.school.repository.NewsModelRepository;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.*;
 import com.mjc.school.service.dto.NewsDTO;
@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DefaultNewsService implements NewsService {
-    private final NewsRepository newsRepository;
+    private final NewsModelRepository newsRepository;
     private final Validator validator;
 
-    public DefaultNewsService(NewsRepository newsRepository, Validator validator) {
+    public DefaultNewsService(NewsModelRepository newsRepository) {
         this.newsRepository = newsRepository;
-        this.validator = validator;
+        validator = new Validator();
     }
 
     @Override

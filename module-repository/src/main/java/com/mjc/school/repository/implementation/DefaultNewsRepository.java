@@ -1,13 +1,13 @@
 package com.mjc.school.repository.implementation;
 
-import com.mjc.school.repository.NewsRepository;
+import com.mjc.school.repository.NewsModelRepository;
 import com.mjc.school.repository.datasource.AuthorData;
 import com.mjc.school.repository.datasource.NewsDataSource;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import java.util.List;
 
-public class DefaultNewsRepository implements NewsRepository {
+public class DefaultNewsRepository implements NewsModelRepository {
     private final AuthorData authorData;
     private final NewsDataSource newsDataSource;
 
