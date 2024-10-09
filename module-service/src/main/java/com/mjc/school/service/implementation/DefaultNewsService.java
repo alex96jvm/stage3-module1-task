@@ -7,22 +7,22 @@ import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 import com.mjc.school.service.mapper.NewsMapper;
-import com.mjc.school.service.validation.Validator;
+import com.mjc.school.service.validation.NewsValidator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DefaultNewsService implements NewsService {
     private final NewsModelRepository newsRepository;
-    private final Validator validator;
+    private final NewsValidator newsValidator;
 
     public DefaultNewsService(NewsModelRepository newsRepository) {
         this.newsRepository = newsRepository;
-        validator = new Validator();
+        newsValidator = new NewsValidator();
     }
 
     @Override
     public NewsDTO createNews(NewsDTO newsDTO) throws NewsException {
-        validator.validateNewsData(newsDTO.getTitle(), newsDTO.getContent());
+        newsValidator.validateNewsData(newsDTO.getTitle(), newsDTO.getContent());
         findAuthorById(newsDTO.getAuthorId());
         NewsModel news = mapToNews(newsDTO);
         newsRepository.createNews(news);
@@ -44,7 +44,7 @@ public class DefaultNewsService implements NewsService {
     @Override
     public NewsDTO updateNews(NewsDTO newsDTO) throws NewsException {
         NewsModel news = findNewsById(newsDTO.getId());
-        validator.validateNewsData(newsDTO.getTitle(), newsDTO.getContent());
+        newsValidator.validateNewsData(newsDTO.getTitle(), newsDTO.getContent());
         findAuthorById(newsDTO.getAuthorId());
         news.setTitle(newsDTO.getTitle());
         news.setContent(newsDTO.getContent());

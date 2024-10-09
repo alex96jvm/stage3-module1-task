@@ -3,7 +3,7 @@ package com.mjc.school.service.validation;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 
-public class Validator {
+public class NewsValidator {
     public void validateNewsData(String title, String content) throws NewsException {
         validateLength(title, 30, "title");
         validateLength(content, 255, "content");
