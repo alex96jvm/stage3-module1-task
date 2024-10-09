@@ -1,12 +1,13 @@
-package com.mjc.school.controller;
+package com.mjc.school.controller.view;
 
+import com.mjc.school.controller.Controller;
 import java.util.Scanner;
 
 public class NewsView {
-    private final NewsController newsController;
+    private final Controller controller;
 
-    public NewsView(NewsController newsController){
-        this.newsController = newsController;
+    public NewsView(Controller controller){
+        this.controller = controller;
         showControlMenu();
         selectOperation();
     }
@@ -32,19 +33,19 @@ public class NewsView {
                 case 0:
                     return;
                 case 1:
-                    newsController.getAllNews();
+                    controller.readAllNews().forEach(System.out::println);
                     break;
                 case 2:
-                    newsController.getNews(scanner);
+                    System.out.println(controller.readByIdNews(scanner));
                     break;
                 case 3:
-                    newsController.createNews(scanner);
+                    System.out.println(controller.createNews(scanner));
                     break;
                 case 4:
-                    newsController.updateNews(scanner);
+                    System.out.println(controller.updateNews(scanner));
                     break;
                 case 5:
-                    newsController.deleteNews(scanner);
+                    System.out.println(controller.deleteNews(scanner));
                     break;
                 default:
                     System.out.println(NOT_FOUND);

@@ -1,7 +1,8 @@
 package com.mjc.school;
 
-import com.mjc.school.controller.NewsController;
-import com.mjc.school.controller.NewsView;
+import com.mjc.school.controller.Controller;
+import com.mjc.school.controller.implementation.NewsController;
+import com.mjc.school.controller.view.NewsView;
 import com.mjc.school.repository.NewsModelRepository;
 import com.mjc.school.repository.datasource.AuthorData;
 import com.mjc.school.repository.datasource.NewsDataSource;
@@ -15,7 +16,7 @@ public class Main {
         NewsDataSource newsDataSource = new NewsDataSource();
         NewsModelRepository newsRepository = new DefaultNewsRepository(authorData, newsDataSource);
         NewsService newsService = new DefaultNewsService(newsRepository);
-        NewsController newsController = new NewsController(newsService);
-        new NewsView(newsController);
+        Controller Controller = new NewsController(newsService);
+        new NewsView(Controller);
     }
 }

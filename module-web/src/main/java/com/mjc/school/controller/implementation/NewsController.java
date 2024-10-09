@@ -1,13 +1,15 @@
-package com.mjc.school.controller;
+package com.mjc.school.controller.implementation;
 
+import com.mjc.school.controller.Controller;
 import com.mjc.school.service.dto.NewsDTO;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 import com.mjc.school.service.NewsService;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 
-public class NewsController {
+public class NewsController implements Controller {
     private final String OPERATION = "Operation: ";
     private final String ENTER_NEWS_ID = "Enter news id:";
     private final String ENTER_AUTHOR_ID = "Enter author id:";
@@ -21,7 +23,7 @@ public class NewsController {
         this.newsService = newsService;
     }
 
-    public void createNews(Scanner scanner) {
+    public NewsDTO createNews(Scanner scanner) {
         System.out.printf("%sCreate news.%n", OPERATION);
         System.out.println(ENTER_NEWS_TITLE);
         String title = scanner.nextLine();
@@ -29,37 +31,38 @@ public class NewsController {
         String content = scanner.nextLine();
         System.out.println(ENTER_AUTHOR_ID);
         try {
-            Long authorId = validateNumericValue(scanner.next(), AUTHOR); scanner.nextLine();
+            Long authorId = validateNumericValue(scanner.nextLine(), AUTHOR);
             NewsDTO newsDTO = new NewsDTO(title, content, LocalDateTime.now(), LocalDateTime.now(), authorId);
-            System.out.println(newsService.createNews(newsDTO));
+            return newsService.createNews(newsDTO);
         } catch (NewsException newsException){
             System.out.println(newsException);
-            createNews(scanner);
+            return createNews(scanner);
         }
     }
 
-    public void getAllNews() {
+    public List<NewsDTO> readAllNews() {
         System.out.printf("%sGet all news.%n", OPERATION);
-        newsService.readAllNews().forEach(System.out::println);
+        return newsService.readAllNews();
     }
 
-    public void getNews(Scanner scanner) {
+    public NewsDTO readByIdNews(Scanner scanner) {
         System.out.printf("%sGet news by id.%n", OPERATION);
         System.out.println(ENTER_NEWS_ID);
         try {
             Long id = validateNumericValue(scanner.next(), NEWS);
-            System.out.println(newsService.readByIdNews(id));
+            return newsService.readByIdNews(id);
         } catch (NewsException newsException) {
             System.out.println(newsException);
+            return readByIdNews(scanner);
         }
     }
 
-    public void updateNews(Scanner scanner) {
+    public NewsDTO updateNews(Scanner scanner) {
         NewsDTO newsDTO = new NewsDTO();
         System.out.printf("%sUpdate news.%n", OPERATION);
         System.out.println(ENTER_NEWS_ID);
         try {
-            Long id = validateNumericValue(scanner.next(), NEWS); scanner.nextLine();
+            Long id = validateNumericValue(scanner.nextLine(), NEWS);
             newsDTO = newsService.readByIdNews(id);
         } catch (NewsException newsException){
             System.out.println(newsException);
@@ -71,26 +74,27 @@ public class NewsController {
         String content = scanner.nextLine();
         System.out.println(ENTER_AUTHOR_ID);
         try {
-            Long authorId = validateNumericValue(scanner.next(), AUTHOR); scanner.nextLine();
+            Long authorId = validateNumericValue(scanner.nextLine(), AUTHOR);
             newsDTO.setTitle(title);
             newsDTO.setContent(content);
             newsDTO.setLastUpdatedDate(LocalDateTime.now());
             newsDTO.setAuthorId(authorId);
-            System.out.println(newsService.updateNews(newsDTO));
+            return newsService.updateNews(newsDTO);
         } catch (NewsException newsException) {
             System.out.println(newsException);
-            updateNews(scanner);
+            return updateNews(scanner);
         }
     }
 
-    public void deleteNews(Scanner scanner) {
+    public Boolean deleteNews(Scanner scanner) {
         System.out.printf("%sRemove news by id.%n", OPERATION);
         System.out.println(ENTER_NEWS_ID);
         try {
             Long id = validateNumericValue(scanner.next(), NEWS);
-            System.out.println(newsService.deleteNews(id));
+            return newsService.deleteNews(id);
         } catch (NewsException newsException) {
             System.out.println(newsException);
+            return deleteNews(scanner);
         }
     }
 

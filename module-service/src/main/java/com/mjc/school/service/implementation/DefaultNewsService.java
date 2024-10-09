@@ -26,7 +26,7 @@ public class DefaultNewsService implements NewsService {
         findAuthorById(newsDTO.getAuthorId());
         NewsModel news = mapToNews(newsDTO);
         newsRepository.createNews(news);
-        return newsDTO;
+        return mapToNewsDto(news);
     }
 
     @Override
