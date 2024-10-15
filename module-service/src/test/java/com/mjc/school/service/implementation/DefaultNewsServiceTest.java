@@ -4,7 +4,7 @@ import com.mjc.school.repository.NewsModelRepository;
 import com.mjc.school.repository.datasource.AuthorData;
 import com.mjc.school.repository.datasource.NewsDataSource;
 import com.mjc.school.repository.implementation.DefaultNewsRepository;
-import com.mjc.school.service.NewsService;
+import com.mjc.school.service.NewsDtoService;
 import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.NewsException;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class DefaultNewsServiceTest {
-    private static NewsService<NewsDto> newsService;
+    private static NewsDtoService newsService;
 
     @BeforeAll
     static void setUp() {

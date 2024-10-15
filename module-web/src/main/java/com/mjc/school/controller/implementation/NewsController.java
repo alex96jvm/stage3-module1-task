@@ -1,15 +1,15 @@
 package com.mjc.school.controller.implementation;
 
 import com.mjc.school.controller.Controller;
-import com.mjc.school.service.NewsService;
+import com.mjc.school.service.NewsDtoService;
 import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.NewsException;
 import java.util.List;
 
-public class NewsController implements Controller<NewsDto> {
-    private final NewsService<NewsDto> newsService;
+public class NewsController implements Controller {
+    private final NewsDtoService newsService;
 
-    public NewsController(NewsService<NewsDto> newsService) {
+    public NewsController(NewsDtoService newsService) {
         this.newsService = newsService;
     }
 
@@ -20,20 +20,17 @@ public class NewsController implements Controller<NewsDto> {
 
     @Override
     public NewsDto readById(Long id) throws NewsException {
-        NewsDto newsDto = newsService.readById(id);
-        return newsDto;
+        return newsService.readById(id);
     }
 
     @Override
     public NewsDto create(NewsDto newsDto) throws NewsException {
-        newsDto = newsService.create(newsDto);
-        return newsDto;
+        return newsService.create(newsDto);
     }
 
     @Override
     public NewsDto update(NewsDto newsDto) throws NewsException {
-        newsDto = newsService.update(newsDto);
-        return newsDto;
+        return newsService.update(newsDto);
     }
 
     @Override

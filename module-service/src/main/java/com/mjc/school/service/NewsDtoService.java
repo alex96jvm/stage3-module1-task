@@ -1,9 +1,10 @@
 package com.mjc.school.service;
 
+import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.NewsException;
 import java.util.List;
 
-public interface NewsService<NewsDto> {
+public interface NewsDtoService {
     List<NewsDto> readAll();
 
     NewsDto readById(Long id) throws NewsException;

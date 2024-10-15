@@ -11,7 +11,7 @@ import com.mjc.school.service.validation.NewsValidator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class DefaultNewsService implements NewsService<NewsDto> {
+public class DefaultNewsService implements NewsDtoService {
     private final NewsModelRepository newsRepository;
     private final NewsValidator newsValidator;
 
