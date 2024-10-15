@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class DefaultNewsServiceTest {
-    private static NewsService newsService;
+    private static NewsService<NewsDto> newsService;
 
     @BeforeAll
     static void setUp() {

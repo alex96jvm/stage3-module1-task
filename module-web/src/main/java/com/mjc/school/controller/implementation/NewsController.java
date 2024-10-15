@@ -6,10 +6,10 @@ import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.NewsException;
 import java.util.List;
 
-public class NewsController implements Controller {
-    private final NewsService newsService;
+public class NewsController implements Controller<NewsDto> {
+    private final NewsService<NewsDto> newsService;
 
-    public NewsController(NewsService newsService) {
+    public NewsController(NewsService<NewsDto> newsService) {
         this.newsService = newsService;
     }
 
