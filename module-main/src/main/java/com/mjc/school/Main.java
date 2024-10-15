@@ -17,7 +17,7 @@ public class Main {
         NewsDataSource newsDataSource = new NewsDataSource();
         NewsModelRepository newsRepository = new DefaultNewsRepository(authorData, newsDataSource);
         NewsService<NewsDto> newsService = new DefaultNewsService(newsRepository);
-        Controller<NewsDto> controller = new NewsController(newsService);
-        new NewsView(controller);
+        NewsController newsController = new NewsController(newsService);
+        new NewsView(newsController);
     }
 }

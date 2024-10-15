@@ -1,6 +1,6 @@
 package com.mjc.school.controller.view;
 
-import com.mjc.school.controller.Controller;
+import com.mjc.school.controller.implementation.NewsController;
 import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class NewsView {
-    private final Controller<NewsDto> controller;
+    private final NewsController newsController;
     private final String OPERATION = "Operation: ";
     private final String ENTER_NEWS_ID = "Enter news id:";
     private final String ENTER_AUTHOR_ID = "Enter author id:";
@@ -18,8 +18,8 @@ public class NewsView {
     private final String NEWS = "News";
     private final String AUTHOR = "Author";
 
-    public NewsView(Controller<NewsDto> controller){
-        this.controller = controller;
+    public NewsView(NewsController newsController){
+        this.newsController = newsController;
         showControlMenu();
         selectOperation();
     }
@@ -72,7 +72,7 @@ public class NewsView {
 
     private List<NewsDto> readAllNews() {
         System.out.printf("%sGet all news.%n", OPERATION);
-        return controller.readAll();
+        return newsController.readAll();
     }
 
     private NewsDto readByIdNews(Scanner scanner) {
@@ -80,7 +80,7 @@ public class NewsView {
         System.out.println(ENTER_NEWS_ID);
         try {
             Long id = validateNumericValue(scanner.next(), NEWS);
-            return controller.readById(id);
+            return newsController.readById(id);
         } catch (NewsException newsException) {
             System.out.println(newsException);
             return readByIdNews(scanner);
@@ -97,7 +97,7 @@ public class NewsView {
         try {
             Long authorId = validateNumericValue(scanner.nextLine(), AUTHOR);
             NewsDto newsDto = new NewsDto(title, content, LocalDateTime.now(), LocalDateTime.now(), authorId);
-            return controller.create(newsDto);
+            return newsController.create(newsDto);
         } catch (NewsException newsException){
             System.out.println(newsException);
             return createNews(scanner);
@@ -110,7 +110,7 @@ public class NewsView {
         System.out.println(ENTER_NEWS_ID);
         try {
             Long id = validateNumericValue(scanner.nextLine(), NEWS);
-            newsDto = controller.readById(id);
+            newsDto = newsController.readById(id);
         } catch (NewsException newsException){
             System.out.println(newsException);
             updateNews(scanner);
@@ -126,7 +126,7 @@ public class NewsView {
             newsDto.setContent(content);
             newsDto.setLastUpdatedDate(LocalDateTime.now());
             newsDto.setAuthorId(authorId);
-            return controller.update(newsDto);
+            return newsController.update(newsDto);
         } catch (NewsException newsException) {
             System.out.println(newsException);
             return updateNews(scanner);
@@ -138,7 +138,7 @@ public class NewsView {
         System.out.println(ENTER_NEWS_ID);
         try {
             Long id = validateNumericValue(scanner.next(), NEWS);
-            return controller.delete(id);
+            return newsController.delete(id);
         } catch (NewsException newsException) {
             System.out.println(newsException);
             return deleteNews(scanner);
