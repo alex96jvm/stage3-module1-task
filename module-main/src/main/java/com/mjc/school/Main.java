@@ -1,6 +1,5 @@
 package com.mjc.school;
 
-import com.mjc.school.controller.Controller;
 import com.mjc.school.controller.implementation.NewsController;
 import com.mjc.school.controller.view.NewsView;
 import com.mjc.school.repository.NewsModelRepository;
