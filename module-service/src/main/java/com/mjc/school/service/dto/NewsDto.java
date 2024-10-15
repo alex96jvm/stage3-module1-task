@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-public class NewsDTO {
+public class NewsDto {
     private Long id;
     private String title;
     private String content;
@@ -12,16 +12,16 @@ public class NewsDTO {
     private LocalDateTime lastUpdatedDate;
     private Long authorId;
 
-    public NewsDTO(){}
+    public NewsDto(){}
 
-    public NewsDTO(String title, String content, LocalDateTime lastUpdatedDate, Long authorId) {
+    public NewsDto(String title, String content, LocalDateTime lastUpdatedDate, Long authorId) {
         this.title = title;
         this.content = content;
         this.lastUpdatedDate = lastUpdatedDate;
         this.authorId = authorId;
     }
 
-    public NewsDTO(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdatedDate, Long authorId) {
+    public NewsDto(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdatedDate, Long authorId) {
         this.title = title;
         this.content = content;
         this.createDate = createDate;
@@ -81,7 +81,7 @@ public class NewsDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NewsDTO newsDTO = (NewsDTO) o;
+        NewsDto newsDTO = (NewsDto) o;
         return Objects.equals(title, newsDTO.title) && Objects.equals(content, newsDTO.content) && Objects.equals(authorId, newsDTO.authorId);
     }
 
