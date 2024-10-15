@@ -16,11 +16,6 @@ public class DefaultNewsRepository implements NewsModelRepository {
         this.newsDataSource = newsDataSource;
     }
 
-    public NewsModel createNews(NewsModel news) {
-        newsDataSource.getAllNews().add(news);
-        return news;
-    }
-
     public List<NewsModel> readAllNews() {
         return newsDataSource.getAllNews();
     }
@@ -32,6 +27,11 @@ public class DefaultNewsRepository implements NewsModelRepository {
     public NewsModel readByIdNews(Long id){
         return newsDataSource.getAllNews().stream()
                 .filter(n -> n.getId().equals(id)).findAny().orElseThrow();
+    }
+
+    public NewsModel createNews(NewsModel news) {
+        newsDataSource.getAllNews().add(news);
+        return news;
     }
 
     public NewsModel updateNews(NewsModel updateNewsModel) {

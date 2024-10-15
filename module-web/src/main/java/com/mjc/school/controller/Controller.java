@@ -1,17 +1,18 @@
 package com.mjc.school.controller;
 
-import com.mjc.school.service.dto.NewsDTO;
+import com.mjc.school.service.dto.NewsDto;
+import com.mjc.school.service.exception.NewsException;
+
 import java.util.List;
-import java.util.Scanner;
 
 public interface Controller {
-    NewsDTO createNews(Scanner scanner);
+    List<NewsDto> readAll();
 
-    List<NewsDTO> readAllNews();
+    NewsDto readById(Long id) throws NewsException;
 
-    NewsDTO readByIdNews(Scanner scanner);
+    NewsDto create(NewsDto newsDto) throws NewsException;
 
-    NewsDTO updateNews(Scanner scanner);
+    NewsDto update(NewsDto newsDto) throws NewsException;
 
-    Boolean deleteNews(Scanner scanner);
+    Boolean delete(Long id) throws NewsException;
 }

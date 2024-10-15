@@ -5,7 +5,7 @@ import com.mjc.school.repository.datasource.AuthorData;
 import com.mjc.school.repository.datasource.NewsDataSource;
 import com.mjc.school.repository.implementation.DefaultNewsRepository;
 import com.mjc.school.service.NewsService;
-import com.mjc.school.service.dto.NewsDTO;
+import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.NewsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,39 +23,39 @@ public class DefaultNewsServiceTest {
     }
 
     @Test
+    void getCountOfAllNews() {
+        Assertions.assertEquals(20, newsService.readAll().size());
+    }
+
+    @Test
+    void getFirstNews() throws NewsException {
+        Assertions.assertNotNull(newsService.readById(1L));
+    }
+
+    @Test
     void createNewsWithInvalidContent() {
-        NewsDTO newsDTO = new NewsDTO();
+        NewsDto newsDTO = new NewsDto();
         newsDTO.setId(2L);
         newsDTO.setTitle("RULE");
         newsDTO.setContent("The woman standing her ground.");
         newsDTO.setAuthorId(5L);
         Assertions.assertThrows(NewsException.class,
-                () -> newsService.createNews(newsDTO));
-    }
-
-    @Test
-    void getCountOfAllNews() {
-        Assertions.assertEquals(20, newsService.readAllNews().size());
-    }
-
-    @Test
-    void getFirstNews() throws NewsException {
-        Assertions.assertNotNull(newsService.readByIdNews(1L));
+                () -> newsService.create(newsDTO));
     }
 
     @Test
     void updateNewsTitle() throws NewsException {
-        NewsDTO newsDTO = new NewsDTO();
+        NewsDto newsDTO = new NewsDto();
         newsDTO.setId(15L);
         newsDTO.setTitle("AGRICULTURE");
         newsDTO.setContent("The woman standing her ground.");
         newsDTO.setAuthorId(5L);
-        newsService.updateNews(newsDTO);
-        Assertions.assertEquals("AGRICULTURE", newsService.readByIdNews(15L).getTitle());
+        newsService.update(newsDTO);
+        Assertions.assertEquals("AGRICULTURE", newsService.readById(15L).getTitle());
     }
 
     @Test
     void deleteNews() throws NewsException {
-        Assertions.assertTrue(newsService.deleteNews(3L));
+        Assertions.assertTrue(newsService.delete(3L));
     }
 }

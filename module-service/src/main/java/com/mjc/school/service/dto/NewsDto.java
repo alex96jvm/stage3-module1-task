@@ -14,13 +14,6 @@ public class NewsDto {
 
     public NewsDto(){}
 
-    public NewsDto(String title, String content, LocalDateTime lastUpdatedDate, Long authorId) {
-        this.title = title;
-        this.content = content;
-        this.lastUpdatedDate = lastUpdatedDate;
-        this.authorId = authorId;
-    }
-
     public NewsDto(String title, String content, LocalDateTime createDate, LocalDateTime lastUpdatedDate, Long authorId) {
         this.title = title;
         this.content = content;

@@ -3,7 +3,7 @@ package com.mjc.school.service.implementation;
 import com.mjc.school.repository.NewsModelRepository;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.*;
-import com.mjc.school.service.dto.NewsDTO;
+import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.ErrorCodes;
 import com.mjc.school.service.exception.NewsException;
 import com.mjc.school.service.mapper.NewsMapper;
@@ -21,7 +21,19 @@ public class DefaultNewsService implements NewsService {
     }
 
     @Override
-    public NewsDTO createNews(NewsDTO newsDTO) throws NewsException {
+    public List<NewsDto> readAll() {
+        return newsRepository.readAllNews().stream().map(NewsMapper.INSTANCE::newsToNewsDto)
+                .toList();
+    }
+
+    @Override
+    public NewsDto readById(Long id) throws NewsException {
+        NewsModel news = findNewsById(id);
+        return mapToNewsDto(news);
+    }
+
+    @Override
+    public NewsDto create(NewsDto newsDTO) throws NewsException {
         newsValidator.validateNewsData(newsDTO.getTitle(), newsDTO.getContent());
         findAuthorById(newsDTO.getAuthorId());
         NewsModel news = mapToNews(newsDTO);
@@ -30,19 +42,7 @@ public class DefaultNewsService implements NewsService {
     }
 
     @Override
-    public List<NewsDTO> readAllNews() {
-        return newsRepository.readAllNews().stream().map(NewsMapper.INSTANCE::newsToNewsDto)
-                .toList();
-    }
-
-    @Override
-    public NewsDTO readByIdNews(Long id) throws NewsException {
-        NewsModel news = findNewsById(id);
-        return mapToNewsDto(news);
-    }
-
-    @Override
-    public NewsDTO updateNews(NewsDTO newsDTO) throws NewsException {
+    public NewsDto update(NewsDto newsDTO) throws NewsException {
         NewsModel news = findNewsById(newsDTO.getId());
         newsValidator.validateNewsData(newsDTO.getTitle(), newsDTO.getContent());
         findAuthorById(newsDTO.getAuthorId());
@@ -55,7 +55,7 @@ public class DefaultNewsService implements NewsService {
     }
 
     @Override
-    public Boolean deleteNews(Long id) throws NewsException {
+    public Boolean delete(Long id) throws NewsException {
         findNewsById(id);
         return newsRepository.deleteNews(id);
     }
@@ -73,11 +73,11 @@ public class DefaultNewsService implements NewsService {
                 .orElseThrow(() -> new NewsException(ErrorCodes.AUTHOR_NOT_FOUND, "Author Id does not exist. Author Id is: " + authorId));
     }
 
-    private NewsDTO mapToNewsDto(NewsModel news) {
+    private NewsDto mapToNewsDto(NewsModel news) {
         return NewsMapper.INSTANCE.newsToNewsDto(news);
     }
 
-    private NewsModel mapToNews(NewsDTO newsDto) {
+    private NewsModel mapToNews(NewsDto newsDto) {
         return NewsMapper.INSTANCE.newsDtoToNews(newsDto);
     }
 }
