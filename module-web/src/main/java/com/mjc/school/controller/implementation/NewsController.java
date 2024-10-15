@@ -20,17 +20,20 @@ public class NewsController implements Controller<NewsDto> {
 
     @Override
     public NewsDto readById(Long id) throws NewsException {
-        return newsService.readById(id);
+        NewsDto newsDto = newsService.readById(id);
+        return newsDto;
     }
 
     @Override
     public NewsDto create(NewsDto newsDto) throws NewsException {
-        return newsService.create(newsDto);
+        newsDto = newsService.create(newsDto);
+        return newsDto;
     }
 
     @Override
     public NewsDto update(NewsDto newsDto) throws NewsException {
-        return newsService.update(newsDto);
+        newsDto = newsService.update(newsDto);
+        return newsDto;
     }
 
     @Override
