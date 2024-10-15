@@ -4,11 +4,10 @@ import com.mjc.school.controller.Controller;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.NewsException;
-
 import java.util.List;
 
 public class NewsController implements Controller {
-    NewsService newsService;
+    private final NewsService newsService;
 
     public NewsController(NewsService newsService) {
         this.newsService = newsService;
